@@ -21,6 +21,10 @@ para o Pages de projeto (`/<nome-do-repositório>/`). O app roda no navegador co
 site estático usando Pyodide; o Python e as dependências são carregados pelo
 cliente.
 
+As dependências de execução contêm somente `flet`, que é compatível com o
+ambiente web estático. Ao atualizar o Flet, mantenha `flet`, `flet-cli`,
+`flet-desktop`, `flet-web` e `flet[test]` na mesma versão no `pyproject.toml`.
+
 ## Run the app
 
 ### uv
