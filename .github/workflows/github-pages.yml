@@ -1,0 +1,61 @@
+name: Build and deploy Flet app to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  UV_PYTHON: "3.14"
+  FLET_CLI_NO_RICH_OUTPUT: "1"
+
+jobs:
+  build:
+    name: Build web app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Build Flet static website
+        shell: bash
+        run: >-
+          uv run flet build web --yes --verbose
+          --base-url "/${GITHUB_REPOSITORY#*/}/"
+          --route-url-strategy hash
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4

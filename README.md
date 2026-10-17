@@ -1,4 +1,25 @@
-# Davi app
+# Sorteio
+
+Aplicação de sorteios numéricos feita com Flet.
+
+## Publicar no GitHub Pages
+
+O workflow em `.github/workflows/github-pages.yml` gera uma versão estática do app
+e publica no GitHub Pages. Ele executa o build em pull requests para `main`, mas
+publica o site quando há push em `main` ou quando o workflow é iniciado
+manualmente pela aba **Actions**.
+
+Para ativar a publicação no repositório:
+
+1. Abra **Settings → Pages**.
+2. Em **Build and deployment → Source**, selecione **GitHub Actions**.
+3. Envie o workflow para o GitHub. Após o primeiro deploy, acompanhe o resultado
+   na aba **Actions**; o endereço do site aparece no ambiente `github-pages`.
+
+O workflow define o caminho base a partir do nome do repositório, então funciona
+para o Pages de projeto (`/<nome-do-repositório>/`). O app roda no navegador como
+site estático usando Pyodide; o Python e as dependências são carregados pelo
+cliente.
 
 ## Run the app
 
