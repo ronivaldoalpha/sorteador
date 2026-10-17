@@ -1,24 +1,17 @@
 [project]
-name = "davi"
+name = "sorteio"
 version = "0.1.0"
-description = ""
+description = "Aplicação declarativa em Flet para sorteios numéricos."
 readme = "README.md"
-requires-python = ">=3.10"
-authors = [
-    { name = "Flet developer", email = "you@example.com" }
-]
+requires-python = ">=3.14"
 dependencies = [
-    "flet>=0.86.5"
+    "flet[all]>=1.0.3,<2.0.0",
 ]
 
 [dependency-groups]
 dev = [
-    "flet-cli>=0.86.5",
-    "flet-desktop>=0.86.5",
-    "flet-web>=0.86.5",
-    # Integration testing with `flet test` / pytest. The `test` extra brings in
-    # pytest, pytest-asyncio and the screenshot-comparison dependencies.
-    "flet[test]>=0.86.5",
+    "flet[test]>=1.0.3,<2.0.0",
+    "pytest>=8.0,<9.0",
 ]
 
 [tool.pytest.ini_options]
@@ -26,10 +19,10 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 
 [tool.flet]
-org = "com.mycompany"
-product = "davi"
-company = "Flet"
-copyright = "Copyright (C) 2023-2026 by Flet"
+org = "com.sorteio"
+product = "Sorteio"
+company = "Sorteio"
+copyright = "Copyright (C) 2026"
 
 [tool.flet.app]
 path = "src"

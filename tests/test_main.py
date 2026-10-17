@@ -1,22 +1,32 @@
-import flet.testing as ftt
+import pytest
+
+from src.main import Sorteados
 
 
-async def test_increment(flet_app: ftt.FletTestApp):
-    """Counter sample: tap the FAB and assert the counter goes 0 -> 1.
+def test_limite_preserva_intervalo_apos_reinicio():
+    sorteio = Sorteados(inicio=5, maximo=12)
+    sorteio.sorteados.append(8)
 
-    The `flet_app` fixture is provided automatically by the flet pytest plugin.
-    Run with `flet test` (or `uv run pytest`) from the project directory.
-    """
-    tester = flet_app.tester
+    sorteio.resetar()
 
-    await tester.pump_and_settle()
+    assert sorteio.cesta == list(range(5, 13))
+    assert sorteio.maximo == 12
+    assert sorteio.sorteados == []
 
-    # Initial state
-    assert (await tester.find_by_text("0")).count == 1
 
-    # Tap the increment button (found by its key) and let the UI settle
-    await tester.tap(await tester.find_by_key("increment"))
-    await tester.pump_and_settle()
+def test_editar_limite_reconstroi_cesta_e_reinicia_sorteio():
+    sorteio = Sorteados()
+    sorteio.sorteados.append(3)
+    sorteio.set_limite(20)
 
-    # New state
-    assert (await tester.find_by_text("1")).count == 1
+    assert sorteio.cesta == list(range(1, 21))
+    assert sorteio.maximo == 20
+    assert sorteio.sorteados == []
+    assert sorteio.ultimo_valor is None
+
+
+def test_limite_abaixo_do_inicio_e_rejeitado():
+    sorteio = Sorteados(inicio=5, maximo=12)
+
+    with pytest.raises(ValueError):
+        sorteio.set_limite(4)
